@@ -24,5 +24,19 @@ a Redirection API that implements thisfunctionality.
 - `docker run -itd --name psql -p 5432:5432 --restart=always -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=task_db postgres:12`
 
 
+### Python Application:
+- `written in flask`
 
 
+
+
+#### SOME IMP Points to be considered:
+
+1. Scalability: If system is highly scalable then we can consider autoscaling.
+2. Hashlib can sometimes generate same short_url so we can use diffent kind of algorithm which will consider machine unique_id and counter combined
+3. RDBMS may not be considered as it is not highly scalable, we can work with NoSQL Database.
+
+
+
+### Advanced Architecture :
+![Architecture V2](images/advanced_architecture.png)
