@@ -14,4 +14,4 @@ a Redirection API that implements thisfunctionality.
 
 
 ### Architecture :
-![Architecture V1](./images/design_v1.png)
+![Architecture V1](images/design_v1.png)
