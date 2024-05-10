@@ -15,3 +15,14 @@ a Redirection API that implements thisfunctionality.
 
 ### Architecture :
 ![Architecture V1](images/design_v1.png)
+
+
+### Deploy Caching Server @Redis with Docker:
+- `docker container run -itd --restart=always --name redis -p 6377:6379 redis`
+
+### Deploy Caching Server @Postgres with Docker:
+- `docker run -itd --name psql -p 5432:5432 --restart=always -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=task_db postgres:12`
+
+
+
+
