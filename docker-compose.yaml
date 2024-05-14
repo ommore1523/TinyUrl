@@ -1,12 +1,31 @@
 version: '3.8'
 
 services:
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: tiny_server_img  # Set the image name
+    container_name: tiny_url_server  # Set the container name
+    ports:
+      - "5000:5000"
+    networks:
+      custom_network:
+        ipv4_address: 10.0.0.3  # Assign a specific IP address from the custom range
+    depends_on:
+      - redis
+      - postgres
+
   redis:
     image: redis:7.2.4
     container_name: tiny_url_redis
     ports:
       - "11379:6379"
 
+    networks:
+      custom_network:
+        ipv4_address: 10.0.0.4  # Assign a specific IP address from the custom range
 
   postgres:
     image: postgres:12
@@ -17,3 +36,14 @@ services:
       POSTGRES_DB: tiny_url_db
     ports:
       - "54320:5432"
+    networks:
+      custom_network:
+        ipv4_address: 10.0.0.2  # Assign a specific IP address from the custom range
+
+
+networks:
+  custom_network:
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.0.0.0/16
