@@ -2,20 +2,20 @@ version: '3.8'
 
 services:
 
-  # web:
-  #   build:
-  #     context: .
-  #     dockerfile: Dockerfile
-  #   image: tiny_server_img  # Set the image name
-  #   container_name: tiny_url_server  # Set the container name
-  #   ports:
-  #     - "5000:5000"
-  #   networks:
-  #     custom_network:
-  #       ipv4_address: 10.0.0.3  # Assign a specific IP address from the custom range
-  #   depends_on:
-  #     - redis
-  #     - postgres
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: tiny_server_img  # Set the image name
+    container_name: tiny_url_server  # Set the container name
+    ports:
+      - "5000:5000"
+    networks:
+      custom_network:
+        ipv4_address: 10.0.0.3  # Assign a specific IP address from the custom range
+    depends_on:
+      - redis
+      - postgres
 
   redis:
     image: redis:7.2.4
