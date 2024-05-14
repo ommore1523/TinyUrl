@@ -3,6 +3,7 @@ from urllib.parse import urlparse
 from app.cache_store import RedisCacheStore as cache
 from app.dbpool import DB
 from app.url_generator import URLGenerator
+
 import config
 
 
@@ -36,6 +37,8 @@ def shorten_url():
     return jsonify({'short_url': short_url})
 
 
+
+
 @app.route('/<short_code>', methods=['GET'])
 def redirect_to_original(short_code):
     original_url = cache().get_value(short_code)
@@ -53,6 +56,18 @@ def redirect_to_original(short_code):
         return redirect(original_url, code=302)
     else:
         return "URL not found", 404
+
+
+
+@app.route('/metrics/top_domains', methods=['GET'])
+def top_domains():
+    resp = DB().get_top_three_api()
+    if resp['success']:
+        data = resp['message'].most_common(3)
+        result = {domain: count for domain, count in data}
+        return jsonify(result)
+    else:
+        return jsonify(resp['message'])
 
 
 

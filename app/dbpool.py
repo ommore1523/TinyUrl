@@ -3,7 +3,8 @@ import datetime
 import traceback
 import sqlalchemy as sqa
 from sqlalchemy.orm import Session
-
+from collections import Counter
+from urllib.parse import urlparse
 
 class DB:
     def get_tiny_url(self, long_url):
@@ -52,5 +53,20 @@ class DB:
             pg_session.commit()
             pg_session.close()
             return {'success':True, 'message':f'Success'}
+        except Exception as err:
+            return {'success':False, 'message':f'Error: {str(traceback.format_exc())}'}
+        
+
+
+    def get_top_three_api(self):
+        try:
+            pg_session = Session(models.engine)
+            pg_records = pg_session.query(models.TinyUrl.long_url).all()
+            
+            domains = [urlparse(row[0]).netloc for row in pg_records]
+            domain_counts = Counter(domains)
+            domain_counts.most_common(3)
+
+            return {'success':True, 'message':domain_counts}
         except Exception as err:
             return {'success':False, 'message':f'Error: {str(traceback.format_exc())}'}
