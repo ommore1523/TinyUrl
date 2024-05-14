@@ -2,41 +2,51 @@
 ## *Build a simple URL shortener service that will accept a URL as an argument over a REST API and return a shortened URL as a result.*
 
 
-<hr>
+1. ####  Introduction to URL Shortening: 
+    - URL shorting is techinique to convert long charachters url to short url which helps to save the space and also provide easy way to display it. 
 
+2. Requirements Considerations:
+    - If user asks same url again it service should return the same short url instead of generating same again.
+    - If the user clicks on the shortURL then he should be redirected to the original URL. Write
+    a Redirection API that implements this functionality.
+    - The URL and shortened URL should be stored in-memory by application.
 
-### The code should have following features:
-1. If I again ask for the same URL,itshould give me the same URL as it gave before instead
-of generating a new one.
-2. If the user clicks on the shortURL then he should be redirected to the original URL. Write
-a Redirection API that implements thisfunctionality.
-3. The URL and shortened URL should be stored in-memory by application.
+4. Data Storage / Calculations:
+    - considering some numbers before thinking about data
+    - Lets say there are `1000 / user requests per minute`:
+        - `1000 * 60(per hour) * 24 (per day) * 30 (per month) * 1  (per year)`  = `43200000  requets per year`
+    - Lets say long_url size is max `100 char` :
+        - `100 bytes` * `43200000 requers of year` =  `4.32 GB per year`
+    - Lets say short_url is `7 char`:
+        - `7 bytes` * `43200000 requers of year` = `0.30GB per year`
+    - Created Time Size:
+        - `8 bytes`  *  `43200000` = `0.34 GB per year` (May add some extra space for storing timezone)
 
+    - So total `4.32 + 0.30 + 0.34` = `4.96 nearly 5GB per year`  
+    - *`NOTE: As calculations is in per minute it can be high number if requets goes to per second.`*
+    - consider `5GB * 10 year` = `50GB` data to store
+    - we can save it in sql or nosql database.
 
-### Architecture :
-![Architecture V1](images/design_v1.png)
+8. Database Schema: 
 
+    - ![Architecture V1](images/DB_SCHEMA.png)
 
-### Deploy Caching Server @Redis with Docker:
-- `docker container run -itd --restart=always --name redis -p 6377:6379 redis`
-
-### Deploy Caching Server @Postgres with Docker:
-- `docker run -itd --name psql -p 5432:5432 --restart=always -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=task_db postgres:12`
-
-
-### Python Application:
-- `written in flask`
-
-
-
-
-#### SOME IMP Points to be considered:
-
-1. Scalability: If system is highly scalable then we can consider autoscaling.
-2. Hashlib can sometimes generate same short_url so we can use diffent kind of algorithm which will consider machine unique_id and counter combined
-3. RDBMS may not be considered as it is not highly scalable, we can work with NoSQL Database.
+    - NOTE: We can consider extra fields like expiry date if wants to delete some data periodically.
 
 
 
-### Advanced Architecture :
-![Architecture V2](images/advanced_architecture.png)
+3. URL Shortening Algorithm:
+
+
+
+5. High Level Design :
+
+6. Low Level Design
+
+7. Tech Stack:
+
+8. Testing Results:
+
+
+
+
