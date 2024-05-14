@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis:7.2.4
+    container_name: tiny_url_redis
+    ports:
+      - "11379:6379"
+
+
+  postgres:
+    image: postgres:12
+    container_name: tiny_url_psql
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: tiny_url_db
+    ports:
+      - "54320:5432"

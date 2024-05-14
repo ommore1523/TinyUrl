@@ -1,15 +1,14 @@
 import config
 import redis
 
-class RedisTokenStore:
+class RedisCacheStore:
     """
-        Class Name: RedisTokenStore
+        Class Name: RedisCacheStore
         Description: Used for read , update , delete and create redis data.
         Author: Omkar More
         On Failure: Raise Exception
             Written By: Omkar
         Version: 1.0
-    
     """
     
     def __init__(self) -> None:
@@ -18,19 +17,19 @@ class RedisTokenStore:
         )
     
     def set_value(self, key, value, expiry) -> None:
-        """Set jwt token value and permissions object"""
+        """Set value and permissions object"""
         self.redis_store.set(key, value, expiry)
     
     def update_expiry(self, key, prolongation) -> None:
-        """Update expiry of jwt token"""
+        """Update expiry of key"""
         self.redis_store.expire(key, prolongation)
     
     def get_value(self, key):
-        """Get value of jwt token"""
+        """Get value of key"""
         return self.redis_store.get(key)
     
     def get_ttl(self, key):
-        """Get time to left of jwt"""
+        """Get time to left of key"""
         return self.redis_store.ttl(key)
     
     def delete(self, key):

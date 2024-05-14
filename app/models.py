@@ -8,11 +8,10 @@ Base = declarative_base()
 class TinyUrl(Base):
     __tablename__ = 'tinyurl'
 
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     long_url = Column(String(2000), nullable=False)
     short_url = Column(String(2000), nullable=False, unique=True)
     created_date = Column(DateTime, nullable=False, default=datetime.utcnow)
-
 
 
 engine = create_engine(config.SQLALCHEMY_DATABASE_URI)

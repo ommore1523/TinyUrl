@@ -1,6 +1,6 @@
 from flask import Flask, request, redirect, jsonify
 from urllib.parse import urlparse
-from app.cache_store import RedisTokenStore as cache
+from app.cache_store import RedisCacheStore as cache
 from app.dbpool import DB
 from app.url_generator import URLGenerator
 import config
@@ -47,3 +47,19 @@ def redirect_to_original(short_code):
         return "URL not found", 404
 
 
+
+@app.route('/original',  methods=['POST'])
+def redirect_to_original():
+    short_url = cache().get_value(original_url)
+    if short_url is not None:
+        original_url = short_url[original_url]
+    else:
+        resp = DB().get_long_url(short_url)
+
+        if resp['success']:
+            original_url = cache().set_value(short_url, resp['message'], config.EXPIRY)
+
+    if original_url:
+        return redirect(original_url, code=302)
+    else:
+        return "URL not found", 404
