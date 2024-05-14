@@ -11,6 +11,8 @@ APP_NAME = "TINYURL"
 EXPIRY = 60*15
 ENVIRONMENT="LOCAL_ENV"
 
+CONVERSION_METHOD = 'md5'
+
 REDIS_PORT = configur.get(ENVIRONMENT, "redis_port")
 REDIS_HOST = configur.get(ENVIRONMENT, "redis_host")
 
