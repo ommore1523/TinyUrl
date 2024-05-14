@@ -1,6 +1,6 @@
 *.bkp
 *.drawio
 
-*venv*
+**venv**
 
 **__pycache__**
