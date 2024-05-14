@@ -29,7 +29,7 @@
 
 8. Database Schema: 
 
-    - ![Architecture V1](images/DB_SCHEMA.png)
+    - ![Architecture V1](images/db_schema.png)
 
     - NOTE: We can consider extra fields like expiry date if wants to delete some data periodically.
 
