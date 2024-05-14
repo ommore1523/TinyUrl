@@ -73,10 +73,40 @@
     - POSTGRES
 
 8. Testing Results:
+    1. ORIGIONAL_URL
+        - Hit the provided URL to observe the response it returns.
+        - Note down the response and ensure it matches the expected behavior.
+        
+        ![Architecture V1](images/original_url_resp.png)
+
+    2. SHORTEN_API_CALL
+        - Hit the provided url to get back shorten url.
+        - This will save url with shorten in database
+        - Also it will cache it to redis for 15*60 sec so anyone hit within this time user can get back immediately
+
+            ![Architecture V1](images/shorten_api_call.png)
+
+            ![Architecture V1](images/db_record_update.png)
 
 
+    3. SHORTEN_TO_ORIGINAL
+        - HIT URL WITH shorten url
+        - This will redirect to original one
+            ![Architecture V1](images/origiona_url_resp_called_shorten.png)
+    
+    4. TOP_3_DOMAINS:
+        - Top 3 mostly visited domains 
+        ![Architecture V1](images/top3_domains.png)
 
 
+9. Disadvantages & Future Enhancement:
+    1. Currently using `md5` hash which may generate same url again for first 7 digits
+    2. We can use counter for each new original url generation which can add uniquness.
+    3. When we scale  our system it will be difficult to manage counter at central location so we can use somethin zookeeper to manage the servers and counters centrally.
+    4. We can use NoSQL db to scale out the database.
+    5. ![Architecture V1](images/Advanced_Diagram.png)
+   
+        
 References:
 - https://medium.com/@souravgupta14/url-shortener-with-zookeeper-aa38174c598b
 
