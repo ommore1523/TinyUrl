@@ -6,26 +6,37 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: tiny_server_img  # Set the image name
-    container_name: tiny_url_server  # Set the container name
+    image: tiny_server_img
+    container_name: tiny_url_server
     ports:
       - "5000:5000"
     networks:
       custom_network:
-        ipv4_address: 10.0.0.3  # Assign a specific IP address from the custom range
+        ipv4_address: 10.0.0.3
     depends_on:
-      - redis
-      - postgres
+      redis:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://tiny_url_redis:6379", "&&", "curl", "-f", "http://tiny_url_psql:5432"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
 
   redis:
     image: redis:7.2.4
     container_name: tiny_url_redis
     ports:
       - "11379:6379"
-
     networks:
       custom_network:
-        ipv4_address: 10.0.0.4  # Assign a specific IP address from the custom range
+        ipv4_address: 10.0.0.4
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
 
   postgres:
     image: postgres:12
@@ -38,8 +49,12 @@ services:
       - "54320:5432"
     networks:
       custom_network:
-        ipv4_address: 10.0.0.2  # Assign a specific IP address from the custom range
-
+        ipv4_address: 10.0.0.2
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "admin", "-d", "tiny_url_db", "-h", "localhost"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
 
 networks:
   custom_network:
