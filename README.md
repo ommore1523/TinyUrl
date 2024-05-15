@@ -2,16 +2,16 @@
 ## *Build a simple URL shortener service that will accept a URL as an argument over a REST API and return a shortened URL as a result.*
 
 
-1. ####  Introduction to URL Shortening: 
+1. ###  Introduction to URL Shortening: 
     - URL shorting is techinique to convert long charachters url to short url which helps to save the space and also provide easy way to display it. 
 
-2. Requirements Considerations:
+2. ### Requirements Considerations:
     - If user asks same url again it service should return the same short url instead of generating same again.
     - If the user clicks on the shortURL then he should be redirected to the original URL. Write
     a Redirection API that implements this functionality.
     - The URL and shortened URL should be stored in-memory by application.
 
-4. Data Storage / Calculations:
+4. ### Data Storage / Calculations:
     - considering some numbers before thinking about data
     - Lets say there are `1000 / user requests per minute`:
         - `1000 * 60(per hour) * 24 (per day) * 30 (per month) * 1  (per year)`  = `43200000  requets per year`
@@ -27,7 +27,7 @@
     - consider `5GB * 10 year` = `50GB` data to store
     - we can save it in sql or nosql database.
 
-8. Database Schema: 
+8. ### Database Schema: 
 
     - ![Architecture V1](images/db_schema.png)
 
@@ -48,7 +48,7 @@
 
 
 
-3. URL Shortening Algorithm: 
+3. ### URL Shortening Algorithm: 
     1. md5 hashing [a-z, 1-9] combinations  (26+10) 36^7 combinations 
         - more data corruption possible as users requets goes higher rate
         - If long_url is same it will generate same short url
@@ -59,20 +59,20 @@
         
 
 
-5. High Level Design :
+5. ### High Level Design :
     - ![Architecture V1](images/design_hld_v1.png)
     
 
-6. Low Level Design:
+6. ### Low Level Design:
     - ![Architecture V1](images/design_lldv1.png) 
 
-7. Tech Stack:
+7. ### Tech Stack:
     - Flask
     - Docker
     - REDIS
     - POSTGRES
 
-8. Testing Results:
+8. ### Testing Results:
     1. ORIGIONAL_URL
         - Hit the provided URL to observe the response it returns.
         - Note down the response and ensure it matches the expected behavior.
@@ -99,7 +99,7 @@
         ![Architecture V1](images/top3_domains.png)
 
 
-9. Disadvantages & Future Enhancement:
+9. ### Disadvantages & Future Enhancement:
     1. Currently using `md5` hash which may generate same url again for first 7 digits
     2. We can use counter for each new original url generation which can add uniquness.
     3. When we scale  our system it will be difficult to manage counter at central location so we can use somethin zookeeper to manage the servers and counters centrally.
