@@ -13,7 +13,7 @@ app = Flask(__name__)
 
 @app.route('/shorten', methods=['POST'])
 def shorten_url():
-    original_url = request.form.get('url')
+    original_url = request.json.get('url')
 
     # Check if URL already in cache
     short_url = cache().get_value(original_url)
